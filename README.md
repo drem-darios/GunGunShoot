@@ -4,9 +4,9 @@ A Rock Paper Scissors type game.
 ##Rules
 * Everyone starts with zero bullets. This is to weed out the people who aren’t paying attention to the rules. The logical first move of every game is to Reload.
 * The objective is to shoot the opponent while they are vulnerable.
-    * ** If you shoot with no bullets, you are vulnerable.** 
-    * **If your shield has taken too much damage, you are vulnerable. **
-    * ** If you are reloading, you are vulnerable. **
+    * **If you shoot with no bullets, you are vulnerable.** 
+    * **If your shield has taken too much damage, you are vulnerable.**
+    * **If you are reloading, you are vulnerable.**
 * In case of a stalemate, the person with the most bullets wins. If both players have the same amount of bullets, the game is a draw.
 
 ##Actions
