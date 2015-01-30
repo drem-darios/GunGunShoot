@@ -1,6 +1,7 @@
 package com.drem.games.ggs;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import com.drem.games.ggs.api.IWeapon;
 import com.drem.games.ggs.player.ComputerPlayer;
@@ -25,8 +26,7 @@ public class GunGunShoot {
 
 	private void play() {
 		try {
-			String userInput = inputScanner.nextLine();
-			int choice = Integer.valueOf(userInput);
+			int choice = inputScanner.nextInt();
 			while (choice != 0) {
 				if (choice == 4) {
 					System.out.print("Player:");
@@ -52,7 +52,7 @@ public class GunGunShoot {
 				userInput = inputScanner.nextLine();
 				choice = Integer.valueOf(userInput);
 			}
-		} catch(NumberFormatException e) {
+		} catch(InputMismatchException e) {
 			System.out.println("Numbers only please! Take a look at the rules again.");
 			printHelp();
 			play();
