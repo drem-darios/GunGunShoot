@@ -23,6 +23,19 @@
 		</dependency>
 	</dependencies>
 
+    <developers>
+        <developer>
+            <id>drem</id>
+            <name>Drem Darios</name>
+            <url>http://www.xn--drm-4qa.com</url>
+            <email>drem.darios@gmail.com</email>
+            <roles>
+                <role>Project Founder</role>
+            </roles>
+        </developer>
+    </developers>
+
+
 	<build>
 		<plugins>
 			<plugin>
