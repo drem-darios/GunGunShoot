@@ -1,4 +1,6 @@
 # GunGunShoot
+
+[![Join the chat at https://gitter.im/drem-darios/GunGunShoot](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/drem-darios/GunGunShoot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A Rock Paper Scissors type game. To run this program outside of an IDE, use the following commands from the project directory:
 
 1. mvn clean install
