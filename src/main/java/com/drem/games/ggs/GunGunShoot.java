@@ -34,14 +34,12 @@ public class GunGunShoot {
 					System.out.print("Computer:");
 					printPlayer(player2);
 					System.out.println();
-					userInput = inputScanner.nextLine();
-					choice = Integer.valueOf(userInput);
+					choice = inputScanner.nextInt();
 					continue;
 				} else if (choice > 4) {
 					System.out.println("Please stick to the options given.");
 					printHelp();
-					userInput = inputScanner.nextLine();
-					choice = Integer.valueOf(userInput);
+					choice = inputScanner.nextInt();
 					continue;
 				}
 
@@ -49,8 +47,8 @@ public class GunGunShoot {
 				WeaponAction computerAction = player2.makeMove();
 				makeMove(action, computerAction);
 
-				userInput = inputScanner.nextLine();
-				choice = Integer.valueOf(userInput);
+				
+				choice = inputScanner.nextInt();
 			}
 		} catch(InputMismatchException e) {
 			System.out.println("Numbers only please! Take a look at the rules again.");
