@@ -1,20 +1,38 @@
 package com.drem.games.ggs.game.menu;
 
-import com.drem.games.ggs.api.IMenu;
 
 /**
  * @author drem
  */
-public class MultiplayerMenu implements IMenu {
+public class MultiplayerMenu extends AbstractMenu {
 
 	@Override
 	public void openMenu() {
+		System.out.println("Sorry but multiplayer is not available at this time.");
+		MainGameMenu menu = new MainGameMenu();
+		menu.openMenu();
+	}
+
+	@Override
+	public void printMenu() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void printMenu() {
+	protected void readInput() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void printHeader() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void printOptions() {
 		// TODO Auto-generated method stub
 		
 	}

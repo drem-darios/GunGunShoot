@@ -17,18 +17,18 @@ public class MultiPlayerGame extends AbstractGame {
 	}
 
 	@Override
-	public void exit() {
-		System.out.println("Exiting now.");
-		System.exit(0);
-		
-	}
-
-	@Override
 	public void printRules() {
 		System.out.println("Multiplayer rules are still under development.");
 		
 	}
 
+	@Override
+	public void exit() {
+		System.out.println("Exiting now.");
+		System.exit(0);
+
+	}
+	
 	@Override
 	protected void initGame() {
 		System.out.println("Multiplayer init game called.");

@@ -8,14 +8,13 @@ import com.drem.games.ggs.api.IMenu;
 /**
  * @author drem
  */
-public class MainGameMenu implements IMenu {
+public class MainGameMenu extends AbstractMenu {
 
-	private Scanner inputScanner = new Scanner(System.in);
 	private IMenu gameModeMenu;
 
 	@Override
-	public void openMenu() {
-		printMenu();
+	protected void readInput() {
+		Scanner inputScanner = new Scanner(System.in);
 		try {
 			int choice = inputScanner.nextInt();
 			if (choice == 1) {
@@ -30,18 +29,20 @@ public class MainGameMenu implements IMenu {
 
 		} catch(InputMismatchException e) {
 			System.out.println("Numbers only please!");
-			printMenu();
+			openMenu();
 		}
 		
 		gameModeMenu.openMenu();
+		inputScanner.close();
 	}
 
 	@Override
-	public void printMenu() {
-		System.out.println("************************");
+	protected void printHeader() {
 		System.out.println("Please select game mode:");
+	}
+
+	@Override
+	protected void printOptions() {
 		System.out.println(" 1 - Single Player \n 2 - Multiplayer ");
-		System.out.println("************************");
-		System.out.println();
 	}
 }

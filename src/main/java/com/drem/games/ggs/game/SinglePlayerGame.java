@@ -3,7 +3,9 @@ package com.drem.games.ggs.game;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.drem.games.ggs.api.IMenu;
 import com.drem.games.ggs.api.IWeapon;
+import com.drem.games.ggs.game.menu.GameEndMenu;
 import com.drem.games.ggs.player.ComputerPlayer;
 import com.drem.games.ggs.player.Player;
 import com.drem.games.ggs.player.PlayerOutcome;
@@ -15,19 +17,12 @@ import com.drem.games.ggs.weapon.WeaponFactory;
  */
 public class SinglePlayerGame extends AbstractGame {
 
-	private Scanner inputScanner = new Scanner(System.in);
-	
+	private IMenu gameEndMenu = new GameEndMenu();
+	private Scanner inputScanner;
 	public SinglePlayerGame(Player player1, ComputerPlayer player2) {
 		super(player1, player2);
 	}
-	
-	@Override
-	public void exit() {
-		inputScanner.close();
-		System.out.println("Goodbye!!!!");
-		System.exit(0);
-	}
-	
+
 	@Override
 	public void printRules() {
 		System.out.println("************************");
@@ -39,7 +34,15 @@ public class SinglePlayerGame extends AbstractGame {
 	}
 
 	@Override
+	public void exit() {
+		inputScanner.close();
+		System.out.println("Goodbye!!!!");
+		System.exit(0);
+	}
+
+	@Override
 	public void play() {
+		inputScanner = new Scanner(System.in);
 		try {
 			int choice = inputScanner.nextInt();
 			while (choice != 0) {
@@ -59,27 +62,28 @@ public class SinglePlayerGame extends AbstractGame {
 				}
 
 				WeaponAction action = WeaponAction.fromValue(choice - 1);
-				WeaponAction computerAction = ((ComputerPlayer)player2).makeMove();
+				WeaponAction computerAction = ((ComputerPlayer) player2)
+						.makeMove();
 				makeMove(action, computerAction);
 
-				
 				choice = inputScanner.nextInt();
 			}
-		} catch(InputMismatchException e) {
-			System.out.println("Numbers only please! Take a look at the rules again.");
+		} catch (InputMismatchException e) {
+			System.out
+					.println("Numbers only please! Take a look at the rules again.");
 			printRules();
 			play();
 		}
-		
 
-		exit();
+		gameEndMenu.openMenu();
 	}
 
 	@Override
 	protected void initGame() {
 		printRules();
 	}
-	
+
+
 	private void makeMove(WeaponAction playerAction, WeaponAction computerAction) {
 		PlayerOutcome playerOutcome = PlayerOutcome.OK;
 		PlayerOutcome computerOutcome = PlayerOutcome.OK;
@@ -147,10 +151,10 @@ public class SinglePlayerGame extends AbstractGame {
 					player1.block();
 					System.out.println("*Ching* Shield up! Your shield has "
 							+ Math.abs(player1.getShieldStrength())
-							+ " strength left!");	
+							+ " strength left!");
 				} else {
 					playerOutcome = PlayerOutcome.DEAD;
-					System.out.println("*Crack* Your shield is broken!");	
+					System.out.println("*Crack* Your shield is broken!");
 				}
 				break;
 			}
@@ -160,13 +164,13 @@ public class SinglePlayerGame extends AbstractGame {
 
 		switch (computerAction) {
 		case BLOCK:
-			if (playerAction == WeaponAction.SHOOT){
+			if (playerAction == WeaponAction.SHOOT) {
 				if (player2.canBlock()) {
-					player2.block();		
+					player2.block();
 				} else {
 					computerOutcome = PlayerOutcome.DEAD;
 				}
-				
+
 			}
 			break;
 		case SHOOT:
@@ -186,9 +190,8 @@ public class SinglePlayerGame extends AbstractGame {
 	}
 
 	private void declareDraw() {
-		System.out
-				.println("Violence solves nothing! Everyone dies. It's a draw.");
-		exit();
+		System.out.println("Violence solves nothing! Everyone dies. It's a draw.");
+		gameEndMenu.openMenu();
 	}
 
 	// private void declareLoser(Player loser) {
@@ -200,7 +203,7 @@ public class SinglePlayerGame extends AbstractGame {
 	private void declareWinner(Player winner) {
 		System.out.println(winner.getClass().getSimpleName()
 				+ " has won the game!");
-		exit();
+		gameEndMenu.openMenu();
 	}
 
 	private void printPlayer(Player player) {
@@ -209,7 +212,7 @@ public class SinglePlayerGame extends AbstractGame {
 		System.out.println("Shield: " + Math.abs(player.getShieldStrength()));
 		if (player.hasWeapon()) {
 			System.out.println(WeaponFactory.getWeapon(player.getBulletCount())
-					.getClass().getSimpleName());	
+					.getClass().getSimpleName());
 		}
 		System.out.println();
 	}
