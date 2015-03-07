@@ -39,7 +39,7 @@ public class SinglePlayerMenu extends AbstractMenu {
 
 	@Override
 	protected void printHeader() {
-		System.out.println("Please select a game mode:");
+		System.out.println("Please select a difficulty:");
 	}
 
 	@Override
