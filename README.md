@@ -15,6 +15,9 @@ A Rock Paper Scissors type game. To run this program outside of an IDE, use the 
     * **If you are reloading, you are vulnerable.**
 * In case of a stalemate, the person with the most bullets wins. If both players have the same amount of bullets, the game is a draw.
 
+##Game Modes
+* There is currently only a single player mode. Stay tuned for more!
+
 ##Actions
 * Block - Shield takes one damage if the opponent has shot a bullet.
 * Shoot - Shoot a bullet if you have any. If not, you are vulnerable. 
