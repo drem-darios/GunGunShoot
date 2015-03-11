@@ -16,15 +16,16 @@ import com.drem.games.ggs.weapon.WeaponFactory;
 public class RegularMode implements IBattleStrategy {
 
 	private IMenu gameEndMenu = new GameEndMenu();
-	
+
 	@Override
 	public void battle(Pair<Player, WeaponAction> player1Move,
 			Pair<Player, WeaponAction> player2Move) {
 		Player player1 = player1Move.getFirst();
 		Player player2 = player2Move.getFirst();
+
 		WeaponAction player1Action = player1Move.getSecond();
 		WeaponAction player2Action = player2Move.getSecond();
-		
+
 		PlayerOutcome playerOutcome = PlayerOutcome.OK;
 		PlayerOutcome computerOutcome = PlayerOutcome.OK;
 
@@ -34,8 +35,14 @@ public class RegularMode implements IBattleStrategy {
 		switch (player1Action) {
 		case RELOAD:
 			if (player2Action == WeaponAction.SHOOT) {
-				playerOutcome = PlayerOutcome.DEAD;
-				break;
+				if (player2.hasWeapon()) {
+					playerOutcome = PlayerOutcome.DEAD;
+					break;
+				} else {
+					System.out
+							.println("Pfftt! Your opponent has shot an empty gun!");
+				}
+
 			}
 			// Check if the other user has shot. If not, add bullet.
 			player1.addBullet();
@@ -45,22 +52,28 @@ public class RegularMode implements IBattleStrategy {
 		case SHOOT:
 			if (player1.hasWeapon()) {
 				if (player2Action == WeaponAction.SHOOT) {
-					IWeapon pWeapon = WeaponFactory.getWeapon(player1
-							.getBulletCount());
-					IWeapon cWeapon = WeaponFactory.getWeapon(player2
-							.getBulletCount());
-					int result = pWeapon.compareTo(cWeapon);
-					if (result == 0) {
-						declareDraw();
-					} else if (result == 1) {
-						computerOutcome = PlayerOutcome.DEAD;
-						break;
-					} else {
+					if (player2.hasWeapon()) {
+						IWeapon pWeapon = WeaponFactory.getWeapon(player1
+								.getBulletCount());
+						IWeapon cWeapon = WeaponFactory.getWeapon(player2
+								.getBulletCount());
+						int result = pWeapon.compareTo(cWeapon);
+						if (result == 0) {
+							declareDraw();
+						} else if (result == 1) {
+							computerOutcome = PlayerOutcome.DEAD;
+							break;
+						} else {
+							playerOutcome = PlayerOutcome.DEAD;
+							break;
+						}
+						// Compare weapons and declare a winner or draw
 						playerOutcome = PlayerOutcome.DEAD;
-						break;
+					} else {
+						System.out
+								.println("Pfftt! Your opponent has shot an empty gun!");
 					}
-					// Compare weapons and declare a winner or draw
-					playerOutcome = PlayerOutcome.DEAD;
+
 				} else if (player2Action == WeaponAction.RELOAD) {
 					computerOutcome = PlayerOutcome.DEAD;
 				} else {
@@ -71,8 +84,14 @@ public class RegularMode implements IBattleStrategy {
 				}
 			} else {
 				if (player2Action == WeaponAction.SHOOT) {
-					playerOutcome = PlayerOutcome.DEAD;
-					break;
+					if (player2.hasWeapon()) {
+						playerOutcome = PlayerOutcome.DEAD;
+						break;
+					} else {
+						System.out
+								.println("Pfftt! Your opponent has shot an empty gun!");
+					}
+
 				}
 
 				System.out
@@ -84,19 +103,25 @@ public class RegularMode implements IBattleStrategy {
 			// bigger one wins!
 			break;
 		case BLOCK:
-			// Check if a bullet was shot. If so, call block. If not, continue.
+			// Check if a bullet was shot and if player could shoot. If so, call
+			// block. If not, continue.
 			if (player2Action == WeaponAction.SHOOT) {
-				if (player1.canBlock()) {
-					playerOutcome = PlayerOutcome.SHIELD_DMG;
-					player1.block();
-					System.out.println("*Ching* Shield up! Your shield has "
-							+ Math.abs(player1.getShieldStrength())
-							+ " strength left!");
+				if (player2.hasWeapon()) {
+					if (player1.canBlock()) {
+						playerOutcome = PlayerOutcome.SHIELD_DMG;
+						player1.block();
+						System.out.println("*Ching* Shield up! Your shield has "
+								+ Math.abs(player1.getShieldStrength())
+								+ " strength left!");
+					} else {
+						playerOutcome = PlayerOutcome.DEAD;
+						System.out.println("*Crack* Your shield is broken!");
+					}
+					break;
 				} else {
-					playerOutcome = PlayerOutcome.DEAD;
-					System.out.println("*Crack* Your shield is broken!");
+					System.out
+							.println("Pfftt! Your opponent has shot an empty gun!");
 				}
-				break;
 			}
 			System.out.println("Don't be scared. Go out there and fight!");
 			break;
@@ -104,7 +129,7 @@ public class RegularMode implements IBattleStrategy {
 
 		switch (player2Action) {
 		case BLOCK:
-			if (player1Action == WeaponAction.SHOOT) {
+			if (player1Action == WeaponAction.SHOOT && player1.hasWeapon()) {
 				if (player2.canBlock()) {
 					player2.block();
 				} else {
@@ -127,7 +152,7 @@ public class RegularMode implements IBattleStrategy {
 			declareWinner(player1);
 		}
 	}
-	
+
 	private void declareDraw() {
 		System.out
 				.println("Violence solves nothing! Everyone dies. It's a draw.");

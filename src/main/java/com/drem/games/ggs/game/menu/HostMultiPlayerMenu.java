@@ -73,14 +73,6 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 
 	}
 
-	private void sleep() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	protected void printHeader() {
 		InetAddress address;
@@ -102,5 +94,13 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 
 	private boolean isRemotePlayerConnected() {
 		return remotePlayerConnected;
+	}
+	
+	private void sleep() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

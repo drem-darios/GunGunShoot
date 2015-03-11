@@ -1,9 +1,11 @@
 package com.drem.games.ggs.weapon;
 
+import java.io.Serializable;
+
 /**
  * @author drem
  */
-public enum WeaponAction {
+public enum WeaponAction implements Serializable {
 
 	BLOCK(), SHOOT(), RELOAD();
 

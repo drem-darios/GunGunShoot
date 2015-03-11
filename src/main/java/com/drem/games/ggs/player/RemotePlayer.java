@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import com.drem.games.ggs.weapon.WeaponAction;
+
 /**
  * @author drem
  */
@@ -26,10 +28,29 @@ public class RemotePlayer extends Player {
     public boolean isConnected() {
     	return sock.isConnected();
     }
+    
+    public WeaponAction readMove() {
+    	String remoteAction;
+		try {
+			remoteAction = read();
+			return WeaponAction.valueOf(remoteAction);
+		} catch (IOException e) {
+			return null;
+		}
+    }
+    
+    public void writeMove(WeaponAction playerAction) {
+    	try {
+			write(playerAction.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
     public void write(String message) throws IOException
     {
         openStream();
-        output.write(message);
+        output.write(message+";;");
         output.flush();
     }
     
@@ -37,7 +58,6 @@ public class RemotePlayer extends Player {
     {
         int data = -1;
         StringBuffer reply = new StringBuffer();
-        
         while(true)
         {
             data = input.read();
@@ -59,8 +79,7 @@ public class RemotePlayer extends Player {
                 }
             }
         }
-        
-        return reply.toString();
+        return reply.toString().replace(";;", "");
     }
     
     /**
