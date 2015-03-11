@@ -1,5 +1,6 @@
-package com.drem.games.ggs.game;
+package com.drem.games.ggs.game.multiplayer;
 
+import com.drem.games.ggs.game.AbstractGame;
 import com.drem.games.ggs.player.Player;
 
 /**
