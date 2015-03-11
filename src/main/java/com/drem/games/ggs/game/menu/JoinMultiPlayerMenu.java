@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 import com.drem.games.ggs.api.IGame;
 import com.drem.games.ggs.api.IMenu;
@@ -21,6 +22,9 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 
 	@Override
 	protected void readInput() {
+		Scanner inputScanner = new Scanner(System.in);
+		// TODO: Validate input
+		this.ipAddress = inputScanner.nextLine();
 		int count = 0;
 		int prettyPrint = 10;
 		RemotePlayer remotePlayer = connectRemotePlayer();
@@ -46,7 +50,8 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 			game = new MultiPlayerGame(new Player(), remotePlayer);
 			game.play();
 		}
-
+		
+		inputScanner.close();
 	}
 
 	@Override
@@ -55,7 +60,7 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 		try {
 			address = InetAddress.getLocalHost();
 			ipAddress = address.getHostAddress();
-			System.out.println("Looking for games at address: " + ipAddress);
+			System.out.println("Please enter IP address of game: " );
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +71,7 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 
 	private RemotePlayer connectRemotePlayer() {
 		try {
+			System.out.println("Attempting to connect to: " + ipAddress);
 			Socket socket = new Socket(ipAddress, 3736);
 			RemotePlayer player = new RemotePlayer(socket);
 			return player;
