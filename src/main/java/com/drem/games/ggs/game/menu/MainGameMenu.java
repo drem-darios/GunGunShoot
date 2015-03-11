@@ -21,6 +21,9 @@ public class MainGameMenu extends AbstractMenu {
 				gameModeMenu = new SinglePlayerMenu();		
 			} else if (choice == 2) {
 				gameModeMenu = new MultiplayerMenu();
+			} else if(choice == 0) {
+				inputScanner.close();
+				exit();
 			} else {
 				// Choice was not recognized. Call start again.
 				System.out.println("Sorry your selection was not valid. Please try again.");
@@ -43,6 +46,11 @@ public class MainGameMenu extends AbstractMenu {
 
 	@Override
 	protected void printOptions() {
-		System.out.println(" 1 - Single Player \n 2 - Multiplayer ");
+		System.out.println(" 1 - Single Player \n 2 - Multiplayer \n 0 - Exit ");
+	}
+	
+	private void exit() {
+		System.out.println("Goodbye!!!!");
+		System.exit(0);
 	}
 }

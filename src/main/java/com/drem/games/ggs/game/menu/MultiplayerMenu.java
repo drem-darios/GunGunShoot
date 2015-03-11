@@ -1,40 +1,51 @@
 package com.drem.games.ggs.game.menu;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import com.drem.games.ggs.api.IMenu;
+
 
 /**
  * @author drem
  */
 public class MultiplayerMenu extends AbstractMenu {
 
-	@Override
-	public void openMenu() {
-		System.out.println("Sorry but multiplayer is not available at this time.");
-		MainGameMenu menu = new MainGameMenu();
-		menu.openMenu();
-	}
-
-	@Override
-	public void printMenu() {
-		// TODO Auto-generated method stub
-		
-	}
-
+	private IMenu multiplayerModeMenu;
+	
 	@Override
 	protected void readInput() {
-		// TODO Auto-generated method stub
+		Scanner inputScanner = new Scanner(System.in);
+		try {
+			int choice = inputScanner.nextInt();
+			if (choice == 1) {
+				multiplayerModeMenu = new HostMultiPlayerMenu();
+			} else if (choice == 2) {
+				multiplayerModeMenu = new JoinMultiPlayerMenu();
+			} else {
+				// Choice was not recognized. Call start again.
+				System.out.println("Sorry your selection was not valid. Please try again.");
+				openMenu();
+			}
+
+		} catch(InputMismatchException e) {
+			System.out.println("Numbers only please!");
+			openMenu();
+		}
 		
+		multiplayerModeMenu.openMenu();
+		inputScanner.close();
 	}
 
 	@Override
 	protected void printHeader() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Please select an option:");
 	}
 
 	@Override
 	protected void printOptions() {
-		// TODO Auto-generated method stub
-		
+		System.out.println(" 1 - Host a game");
+		System.out.println(" 2 - Join a game");
 	}
 
 }
