@@ -15,13 +15,22 @@ A Rock Paper Scissors type game. To run this program outside of an IDE, use the 
     * **If you are reloading, you are vulnerable.**
 * In case of a stalemate, the person with the most bullets wins. If both players have the same amount of bullets, the game is a draw.
 
-##Game Modes
-* There is currently only a single player mode. Stay tuned for more!
-
 ##Actions
 * Block - Shield takes one damage if the opponent has shot a bullet.
 * Shoot - Shoot a bullet if you have any. If not, you are vulnerable. 
 * Reload - Gives you one bullet. If the opponent shoots, you are dead.
+
+##Single Player
+* Currently there is only one difficulty. The computer player will (semi)randomly make a move. Best of luck!
+
+##Multi Player
+###Host a game
+   * Provide an opponent with the code given on the screen and let the battle begin! 
+   * The session will stay open for one minute. If no other player has joined, go find something else to do.
+
+###Joing a game
+   * Enter the code provided by your opponent. 
+   * If the game can not be found, you're better off playing single player. Or just try again, I don't care.
 
 ##Guns
 * Pistol(1)
