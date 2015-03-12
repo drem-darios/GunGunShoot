@@ -6,7 +6,7 @@ A Rock Paper Scissors type game. To run this program outside of an IDE, use the 
 
 1. mvn clean install
 2. java -cp target/ggs-0.0.1-SNAPSHOT.jar com.drem.games.ggs.App
- 
+
 ##Rules
 * Everyone starts with zero bullets. This is to weed out the people who aren’t paying attention to the rules. The logical first move of every game is to Reload.
 * The objective is to shoot the opponent while they are vulnerable.
@@ -37,3 +37,6 @@ A Rock Paper Scissors type game. To run this program outside of an IDE, use the 
 * Shotgun(3)
 * Machine Gun(5)
 * Rocket Launcher(10)
+
+##Requirements
+To run this project, you will need to be running Java 1.8. Currently there are no dependencies on Java 1.8, but this may change in the future. To build this game from the source code, you will also need Maven. Once you have these two things, you cant build the project from scratch and start gaming!
