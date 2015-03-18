@@ -38,30 +38,31 @@ public class SinglePlayerGame extends AbstractGame {
 
 	@Override
 	public void exit() {
-		inputScanner.close();
-		System.out.println("Goodbye!!!!");
-		System.exit(0);
+		gameEndMenu.openMenu();
 	}
 
 	@Override
 	public void play() {
 		inputScanner = new Scanner(System.in);
 		try {
-			int choice = inputScanner.nextInt();
+			int choice = -1;
 			while (choice != 0) {
+				inputScanner.reset();
+				System.out.print("Make a move: ");
+				choice = inputScanner.nextInt();
 				if (choice == 4) {
 					System.out.print("Player:");
 					printPlayer(player1);
 					System.out.print("Computer:");
 					printPlayer(player2);
 					System.out.println();
-					choice = inputScanner.nextInt();
 					continue;
 				} else if (choice > 4) {
 					System.out.println("Please stick to the options given.");
 					printRules();
-					choice = inputScanner.nextInt();
 					continue;
+				} else if (choice <= 0) {
+					exit();
 				}
 
 				WeaponAction action = WeaponAction.fromValue(choice - 1);
@@ -71,7 +72,6 @@ public class SinglePlayerGame extends AbstractGame {
 						action), new Pair<Player, WeaponAction>(player2,
 						computerAction));
 
-				choice = inputScanner.nextInt();
 			}
 		} catch (InputMismatchException e) {
 			System.out
@@ -80,7 +80,7 @@ public class SinglePlayerGame extends AbstractGame {
 			play();
 		}
 
-		gameEndMenu.openMenu();
+		exit();
 	}
 
 	@Override

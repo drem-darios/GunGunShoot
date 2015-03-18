@@ -31,15 +31,35 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 			public void run() {
 				try {
 					ss = new ServerSocket(3736);
-					Socket socket = ss.accept(); // This will block until
-													// complete
+					Socket socket = ss.accept(); // This will block until complete
+					
 					remotePlayer = new RemotePlayer(socket);
 					remotePlayerConnected = true;
 				} catch (IOException e) {}
 			}
 		});
 		socketConnectThread.start();
+		waitForOpponent();
 
+		if (remotePlayer == null) {
+			try {
+				if (ss != null) {
+					ss.close();
+					ss = null;
+				}
+			} catch (IOException e) {}
+			System.out.println("No opponents found! Try single player or joining a game instead.");
+			IMenu menu = new MainGameMenu();
+			menu.openMenu();
+		} else {
+			System.out.println("Opponent found. Prepare for battle!");
+			game = new MultiPlayerGame(new Player(), remotePlayer);
+			game.play();
+		}
+
+	}
+
+	private void waitForOpponent() {
 		System.out.print("Waiting for opponent...");
 		int count = 0;
 		int prettyPrint = 10;
@@ -56,21 +76,6 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 		}
 
 		System.out.println();
-		if (remotePlayer == null) {
-			try {
-				if (ss != null) {
-					ss.close();
-				}
-			} catch (IOException e) {}
-			System.out.println("No opponents found! Try single player or joining a game instead.");
-			IMenu menu = new MainGameMenu();
-			menu.openMenu();
-		} else {
-			System.out.println("Opponent found. Prepare for battle!");
-			game = new MultiPlayerGame(new Player(), remotePlayer);
-			game.play();
-		}
-
 	}
 
 	@Override

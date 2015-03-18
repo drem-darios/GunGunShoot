@@ -25,7 +25,7 @@ public class MultiPlayerGame extends AbstractGame {
 	private IMenu gameEndMenu = new GameEndMenu();
 	private boolean remotePlayerMoved;
 	private WeaponAction remoteAction;
-
+	
 	public MultiPlayerGame(Player player1, RemotePlayer player2) {
 		super(player1, player2);
 	}
@@ -49,29 +49,31 @@ public class MultiPlayerGame extends AbstractGame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Exiting now.");
-		System.exit(0);
+		gameEndMenu.openMenu();
 	}
 
 	@Override
 	public void play() {
 		inputScanner = new Scanner(System.in);
 		try {
-			int choice = inputScanner.nextInt();
+			int choice = -1;
 			while (choice != 0) {
+				inputScanner.reset();
+				System.out.print("Make a move: ");
+				choice = inputScanner.nextInt();
 				if (choice == 4) {
 					System.out.print("Player:");
 					printPlayer(player1);
 					System.out.print("Remote:");
 					printPlayer(player2);
 					System.out.println();
-					choice = inputScanner.nextInt();
 					continue;
 				} else if (choice > 4) {
 					System.out.println("Please stick to the options given.");
 					printRules();
-					choice = inputScanner.nextInt();
 					continue;
+				} else if (choice <= 0) {
+					exit();
 				}
 				WeaponAction action = WeaponAction.fromValue(choice - 1);
 				// TODO: Move this to a thread and print some waiting statement
@@ -90,21 +92,7 @@ public class MultiPlayerGame extends AbstractGame {
 						+ " written to remote player.");
 				
 				readMove.start();
-				
-				System.out.print("Waiting for opponent...");
-				int count = 0;
-				int prettyPrint = 10;
-
-				while (!hasRemotePlayerMoved() && count < 30) {
-					count++;
-					System.out.print('.');
-					if ((count % prettyPrint) == 0) {
-						// Just to make output look a little nicer while waiting
-						System.out.println();
-						prettyPrint--;
-					}
-					sleep();
-				}
+				waitForOpponent();
 
 				if (remoteAction == null) {
 					System.out.println("Could not read opponent's move. Please try your move again.");
@@ -116,7 +104,6 @@ public class MultiPlayerGame extends AbstractGame {
 							remoteAction));
 					remoteAction = null; // clear last action
 					remotePlayerMoved = false;
-					choice = inputScanner.nextInt();
 				}
 
 			}
@@ -127,7 +114,7 @@ public class MultiPlayerGame extends AbstractGame {
 			play();
 		}
 
-		gameEndMenu.openMenu();
+		exit();
 	}
 
 	@Override
@@ -142,6 +129,24 @@ public class MultiPlayerGame extends AbstractGame {
 		if (player.hasWeapon()) {
 			System.out.println(WeaponFactory.getWeapon(player.getBulletCount())
 					.getClass().getSimpleName());
+		}
+		System.out.println();
+	}
+	
+	private void waitForOpponent() {
+		System.out.print("Waiting for opponent...");
+		int count = 0;
+		int prettyPrint = 10;
+
+		while (!hasRemotePlayerMoved() && count < 30) {
+			count++;
+			System.out.print('.');
+			if ((count % prettyPrint) == 0) {
+				// Just to make output look a little nicer while waiting
+				System.out.println();
+				prettyPrint--;
+			}
+			sleep();
 		}
 		System.out.println();
 	}
