@@ -13,7 +13,7 @@ public class ReloadAction implements IPlayerAction {
 
 	@Override
 	public PlayerOutcome doAction(Player player1, Player player2, IPlayerAction player2Action) {
-		if (player2Action.getActionName() == ActionName.SHOOT) {
+		if (player2.hasWeapon() && player2Action.getActionName() == ActionName.SHOOT) {
 			System.out.println("Oh no! You dead!");
 			return PlayerOutcome.DEAD;
 		}

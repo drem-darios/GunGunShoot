@@ -15,7 +15,7 @@ public class BlockAction implements IPlayerAction {
 	public PlayerOutcome doAction(Player player1, Player player2,
 			IPlayerAction player2Action) {
 		// Check if a bullet was shot. If so, call block. If not, continue.
-		if (player2Action.getActionName() == ActionName.SHOOT) {
+		if (player2.hasWeapon() && player2Action.getActionName() == ActionName.SHOOT) {
 			if (player1.canBlock()) {
 				player1.block();
 				System.out.println("*Ching* Shield up! Your shield has "
@@ -23,7 +23,7 @@ public class BlockAction implements IPlayerAction {
 						+ " strength left!");
 				return PlayerOutcome.SHIELD_DMG;
 			} else {
-				System.out.println("*Crack* Your shield is broken!");
+				System.out.println("*Crack* Your opponent has broken through your shield!");
 				return PlayerOutcome.DEAD;
 			}
 		}

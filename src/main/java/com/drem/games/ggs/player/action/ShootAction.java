@@ -17,7 +17,7 @@ public class ShootAction implements IPlayerAction {
 	public PlayerOutcome doAction(Player player1, Player player2, IPlayerAction player2Action) {
 		
 		if (player1.hasWeapon()) {
-			if (player2Action.getActionName() == ActionName.SHOOT) {
+			if (player2.hasWeapon() && player2Action.getActionName() == ActionName.SHOOT) {
 				IWeapon pWeapon = WeaponFactory.getWeapon(player1
 						.getBulletCount());
 				IWeapon cWeapon = WeaponFactory.getWeapon(player2
@@ -27,15 +27,14 @@ public class ShootAction implements IPlayerAction {
 					System.out.println("You pulled out the same gun as your opponent!");
 					return PlayerOutcome.DEAD;
 				} else if (result == 1) {
-					System.out.println();
+					player1.useBullet();
+					System.out.println("Pew! Pew! You have "
+							+ player1.getBulletCount() + " bullets left!");
 					return PlayerOutcome.OK;
 				} else {
 					System.out.println("Your opponent's weapon is stronger!");
 					return PlayerOutcome.DEAD;
 				}
-			} else if (player2Action.getActionName() == ActionName.RELOAD) {
-				System.out.println();
-				return PlayerOutcome.OK;
 			} else {
 				player1.useBullet();
 				System.out.println("Pew! Pew! You have "
@@ -43,7 +42,7 @@ public class ShootAction implements IPlayerAction {
 				return PlayerOutcome.OK;
 			}
 		} else {
-			if (player2Action.getActionName() == ActionName.SHOOT) {
+			if (player2.hasWeapon() && player2Action.getActionName() == ActionName.SHOOT) {
 				System.out.println("Oh no! You dead!");
 				return PlayerOutcome.DEAD;
 			}
