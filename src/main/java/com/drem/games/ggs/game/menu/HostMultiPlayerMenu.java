@@ -53,6 +53,12 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 			menu.openMenu();
 		} else {
 			System.out.println("Opponent found. Prepare for battle!");
+			try {
+				remotePlayer.write("Opponent found. Prepare for battle!");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			game = new MultiPlayerGame(new Player(), remotePlayer);
 			game.play();
 		}
