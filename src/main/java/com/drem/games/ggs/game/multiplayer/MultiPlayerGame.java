@@ -11,8 +11,8 @@ import com.drem.games.ggs.game.menu.GameEndMenu;
 import com.drem.games.ggs.game.mode.RegularMode;
 import com.drem.games.ggs.player.Player;
 import com.drem.games.ggs.player.RemotePlayer;
+import com.drem.games.ggs.player.action.ActionType;
 import com.drem.games.ggs.util.Pair;
-import com.drem.games.ggs.weapon.WeaponAction;
 import com.drem.games.ggs.weapon.WeaponFactory;
 
 /**
@@ -24,7 +24,7 @@ public class MultiPlayerGame extends AbstractGame {
 	private IBattleStrategy moveStrategy = new RegularMode();
 	private IMenu gameEndMenu = new GameEndMenu();
 	private boolean remotePlayerMoved;
-	private WeaponAction remoteAction;
+	private ActionType remoteAction;
 	
 	public MultiPlayerGame(Player player1, RemotePlayer player2) {
 		super(player1, player2);
@@ -75,7 +75,7 @@ public class MultiPlayerGame extends AbstractGame {
 				} else if (choice <= 0) {
 					exit();
 				}
-				WeaponAction action = WeaponAction.fromValue(choice - 1);
+				ActionType action = ActionType.fromValue(choice - 1);
 				// TODO: Move this to a thread and print some waiting statement
 				// here
 				Thread readMove = new Thread(new Runnable() {
@@ -99,8 +99,8 @@ public class MultiPlayerGame extends AbstractGame {
 					printRules();
 					play();
 				} else {
-					moveStrategy.battle(new Pair<Player, WeaponAction>(player1,
-							action), new Pair<Player, WeaponAction>(player2,
+					moveStrategy.battle(new Pair<Player, ActionType>(player1,
+							action), new Pair<Player, ActionType>(player2,
 							remoteAction));
 					remoteAction = null; // clear last action
 					remotePlayerMoved = false;

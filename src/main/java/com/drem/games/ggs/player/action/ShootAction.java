@@ -17,7 +17,7 @@ public class ShootAction implements IPlayerAction {
 	public PlayerOutcome doAction(Player player1, Player player2, IPlayerAction player2Action) {
 		
 		if (player1.hasWeapon()) {
-			if (player2.hasWeapon() && player2Action.getActionName() == ActionName.SHOOT) {
+			if (player2.hasWeapon() && player2Action.getActionName() == ActionType.SHOOT) {
 				IWeapon pWeapon = WeaponFactory.getWeapon(player1
 						.getBulletCount());
 				IWeapon cWeapon = WeaponFactory.getWeapon(player2
@@ -42,7 +42,7 @@ public class ShootAction implements IPlayerAction {
 				return PlayerOutcome.OK;
 			}
 		} else {
-			if (player2.hasWeapon() && player2Action.getActionName() == ActionName.SHOOT) {
+			if (player2.hasWeapon() && player2Action.getActionName() == ActionType.SHOOT) {
 				System.out.println("Oh no! You dead!");
 				return PlayerOutcome.DEAD;
 			}
@@ -54,8 +54,8 @@ public class ShootAction implements IPlayerAction {
 	}
 
 	@Override
-	public ActionName getActionName() {
-		return ActionName.SHOOT;
+	public ActionType getActionName() {
+		return ActionType.SHOOT;
 	}
 
 }

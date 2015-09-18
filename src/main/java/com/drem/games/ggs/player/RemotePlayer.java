@@ -9,7 +9,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-import com.drem.games.ggs.weapon.WeaponAction;
+import com.drem.games.ggs.player.action.ActionType;
 
 /**
  * @author drem
@@ -29,17 +29,17 @@ public class RemotePlayer extends Player {
     	return sock.isConnected();
     }
     
-    public WeaponAction readMove() {
+    public ActionType readMove() {
     	String remoteAction;
 		try {
 			remoteAction = read();
-			return WeaponAction.valueOf(remoteAction);
+			return ActionType.valueOf(remoteAction);
 		} catch (IOException e) {
 			return null;
 		}
     }
     
-    public void writeMove(WeaponAction playerAction) {
+    public void writeMove(ActionType playerAction) {
     	try {
 			write(playerAction.toString());
 		} catch (IOException e) {
