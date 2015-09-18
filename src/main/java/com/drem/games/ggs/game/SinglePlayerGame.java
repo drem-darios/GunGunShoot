@@ -4,13 +4,12 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.drem.games.ggs.api.IMenu;
-import com.drem.games.ggs.api.IBattleStrategy;
+import com.drem.games.ggs.api.IPlayerAction;
 import com.drem.games.ggs.game.menu.GameEndMenu;
-import com.drem.games.ggs.game.mode.RegularMode;
 import com.drem.games.ggs.player.ComputerPlayer;
 import com.drem.games.ggs.player.Player;
-import com.drem.games.ggs.util.Pair;
-import com.drem.games.ggs.weapon.WeaponAction;
+import com.drem.games.ggs.player.PlayerOutcome;
+import com.drem.games.ggs.player.action.PlayerActionFactory;
 import com.drem.games.ggs.weapon.WeaponFactory;
 
 /**
@@ -19,9 +18,7 @@ import com.drem.games.ggs.weapon.WeaponFactory;
 public class SinglePlayerGame extends AbstractGame {
 
 	private IMenu gameEndMenu = new GameEndMenu();
-	private IBattleStrategy moveStrategy = new RegularMode();
 	private Scanner inputScanner;
-
 	public SinglePlayerGame(Player player1, ComputerPlayer player2) {
 		super(player1, player2);
 	}
@@ -38,40 +35,45 @@ public class SinglePlayerGame extends AbstractGame {
 
 	@Override
 	public void exit() {
-		gameEndMenu.openMenu();
+		inputScanner.close();
+		System.out.println("Goodbye!!!!");
+		System.exit(0);
 	}
 
 	@Override
 	public void play() {
 		inputScanner = new Scanner(System.in);
 		try {
-			int choice = -1;
+			int choice = inputScanner.nextInt();
 			while (choice != 0) {
-				inputScanner.reset();
-				System.out.print("Make a move: ");
-				choice = inputScanner.nextInt();
 				if (choice == 4) {
-					System.out.print("Player:");
+					System.out.println("Player:");
 					printPlayer(player1);
-					System.out.print("Computer:");
+					System.out.println();
+					System.out.println("Computer:");
 					printPlayer(player2);
 					System.out.println();
+					choice = inputScanner.nextInt();
 					continue;
 				} else if (choice > 4) {
 					System.out.println("Please stick to the options given.");
 					printRules();
+					choice = inputScanner.nextInt();
 					continue;
-				} else if (choice <= 0) {
-					exit();
 				}
+				
+				IPlayerAction playerAction = PlayerActionFactory.getPlayerAction(choice-1);
+				IPlayerAction computerAction = ((ComputerPlayer) player2).makeMove();
+				
+				System.out.print("Player1: ");
+				// Apply the action
+				PlayerOutcome playerOutcome = playerAction.doAction(player1, player2, computerAction);
+				System.out.print("Computer: ");
+				PlayerOutcome computerOutcome = computerAction.doAction(player2, player1, playerAction);
+				
+				updateGameState(playerOutcome, computerOutcome);
 
-				WeaponAction action = WeaponAction.fromValue(choice - 1);
-				WeaponAction computerAction = ((ComputerPlayer) player2)
-						.makeMove();
-				moveStrategy.battle(new Pair<Player, WeaponAction>(player1,
-						action), new Pair<Player, WeaponAction>(player2,
-						computerAction));
-
+				choice = inputScanner.nextInt();
 			}
 		} catch (InputMismatchException e) {
 			System.out
@@ -80,7 +82,7 @@ public class SinglePlayerGame extends AbstractGame {
 			play();
 		}
 
-		exit();
+		gameEndMenu.openMenu();
 	}
 
 	@Override
@@ -88,15 +90,38 @@ public class SinglePlayerGame extends AbstractGame {
 		printRules();
 	}
 
+	private void updateGameState(PlayerOutcome playerOutcome,
+			PlayerOutcome computerOutcome) {
+		if (playerOutcome == PlayerOutcome.DEAD && computerOutcome == PlayerOutcome.DEAD) {
+			declareDraw();
+		}
+		if (playerOutcome == PlayerOutcome.DEAD) {
+			declareWinner(player2);
+		} else if (computerOutcome == PlayerOutcome.DEAD) {
+			declareWinner(player1);
+		}
+	}
+
+	private void declareDraw() {
+		System.out.println("Violence solves nothing! Everyone dies. It's a draw.");
+		gameEndMenu.openMenu();
+	}
+
+	private void declareWinner(Player winner) {
+		System.out.println(winner.getClass().getSimpleName()
+				+ " has won the game!");
+		gameEndMenu.openMenu();
+	}
+
 	private void printPlayer(Player player) {
-		System.out.println();
+		System.out.println("%`%`%`%`%`%`%`%`%`%");
 		System.out.println("Bullets: " + player.getBulletCount());
 		System.out.println("Shield: " + Math.abs(player.getShieldStrength()));
 		if (player.hasWeapon()) {
-			System.out.println(WeaponFactory.getWeapon(player.getBulletCount())
+			System.out.println("Gun: " + WeaponFactory.getWeapon(player.getBulletCount())
 					.getClass().getSimpleName());
 		}
-		System.out.println();
+		System.out.println("%_%_%_%_%_%_%_%_%_%");
 	}
 
 }

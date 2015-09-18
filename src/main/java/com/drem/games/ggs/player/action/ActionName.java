@@ -1,17 +1,15 @@
-package com.drem.games.ggs.weapon;
-
-import java.io.Serializable;
+package com.drem.games.ggs.player.action;
 
 /**
  * @author drem
  */
-public enum WeaponAction implements Serializable {
+public enum ActionName {
 
 	BLOCK(), SHOOT(), RELOAD();
 
 	private int action;
 
-	private WeaponAction() {
+	private ActionName() {
 		this.action = ordinal(); 
 	}
 
@@ -19,10 +17,10 @@ public enum WeaponAction implements Serializable {
 		return this.action;
 	}
 
-	public static WeaponAction fromValue(int value)
+	public static ActionName fromValue(int value)
 			throws IllegalArgumentException {
 		try {
-			return WeaponAction.values()[value];
+			return ActionName.values()[value];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			throw new IllegalArgumentException("Unknown enum value: " + value);
 		}
