@@ -50,7 +50,7 @@ public class RemotePlayer extends Player {
     public void write(String message) throws IOException
     {
         openStream();
-        output.write(message+";;");
+        output.write(message+";;\n\r");
         output.flush();
     }
     
@@ -61,10 +61,10 @@ public class RemotePlayer extends Player {
         while(true)
         {
             data = input.read();
-            //connection was closed
+            //wait
             if(data == -1)
             {
-               break; 
+               continue; 
             }
             reply.append((char)data);
             

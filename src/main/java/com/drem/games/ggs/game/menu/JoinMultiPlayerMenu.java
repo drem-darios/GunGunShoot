@@ -1,6 +1,8 @@
 package com.drem.games.ggs.game.menu;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -28,7 +30,6 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 		int count = 0;
 		int prettyPrint = 10;
 		RemotePlayer remotePlayer = connectRemotePlayer();
-		System.out.print("No games found...");
 		while (remotePlayer == null && count < 30) {
 			count++;
 			System.out.print(".");
@@ -74,6 +75,13 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 			System.out.println("Attempting to connect to: " + ipAddress);
 			Socket socket = new Socket(ipAddress, 3736);
 			RemotePlayer player = new RemotePlayer(socket);
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(
+					socket.getInputStream()));
+			String userInput;
+			while ((userInput = stdIn.readLine()) != null) {
+				System.out.println(userInput);
+				break;
+			}
 			return player;
 		} catch (IOException e) {
 			return null;
