@@ -10,14 +10,14 @@ import java.util.Scanner;
 
 import com.drem.games.ggs.api.IGame;
 import com.drem.games.ggs.api.IMenu;
-import com.drem.games.ggs.game.multiplayer.MultiPlayerGame;
+import com.drem.games.ggs.game.multiplayer.MultiplayerGame;
 import com.drem.games.ggs.player.Player;
 import com.drem.games.ggs.player.RemotePlayer;
 
 /**
  * @author drem
  */
-public class JoinMultiPlayerMenu extends AbstractMenu {
+public class JoinMultiplayerMenu extends AbstractMenu {
 
 	private IGame game;
 	private String ipAddress;
@@ -48,7 +48,7 @@ public class JoinMultiPlayerMenu extends AbstractMenu {
 			menu.openMenu();
 		} else {
 			System.out.println("Game found. Prepare for battle!");
-			game = new MultiPlayerGame(new Player(), remotePlayer);
+			game = new MultiplayerGame(new Player(), remotePlayer);
 			game.play();
 		}
 		

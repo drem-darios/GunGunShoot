@@ -8,14 +8,14 @@ import java.net.UnknownHostException;
 
 import com.drem.games.ggs.api.IGame;
 import com.drem.games.ggs.api.IMenu;
-import com.drem.games.ggs.game.multiplayer.MultiPlayerGame;
+import com.drem.games.ggs.game.multiplayer.MultiplayerGame;
 import com.drem.games.ggs.player.Player;
 import com.drem.games.ggs.player.RemotePlayer;
 
 /**
  * @author drem
  */
-public class HostMultiPlayerMenu extends AbstractMenu {
+public class HostMultiplayerMenu extends AbstractMenu {
 
 	private IGame game;
 	private String ipAddress;
@@ -49,7 +49,7 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			game = new MultiPlayerGame(new Player(), remotePlayer);
+			game = new MultiplayerGame(new Player(), remotePlayer);
 			game.play();
 		}
 

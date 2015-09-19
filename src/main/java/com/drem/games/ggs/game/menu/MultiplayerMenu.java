@@ -19,9 +19,9 @@ public class MultiplayerMenu extends AbstractMenu {
 		try {
 			int choice = inputScanner.nextInt();
 			if (choice == 1) {
-				multiplayerModeMenu = new HostMultiPlayerMenu();
+				multiplayerModeMenu = new HostMultiplayerMenu();
 			} else if (choice == 2) {
-				multiplayerModeMenu = new JoinMultiPlayerMenu();
+				multiplayerModeMenu = new JoinMultiplayerMenu();
 			} else {
 				// Choice was not recognized. Call start again.
 				System.out.println("Sorry your selection was not valid. Please try again.");

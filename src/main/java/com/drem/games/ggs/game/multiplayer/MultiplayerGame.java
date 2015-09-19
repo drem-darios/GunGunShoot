@@ -18,7 +18,7 @@ import com.drem.games.ggs.weapon.WeaponFactory;
 /**
  * @author drem
  */
-public class MultiPlayerGame extends AbstractGame {
+public class MultiplayerGame extends AbstractGame {
 
 	private Scanner inputScanner;
 	private IBattleStrategy moveStrategy = new RegularMode();
@@ -26,7 +26,7 @@ public class MultiPlayerGame extends AbstractGame {
 	private boolean remotePlayerMoved;
 	private ActionType remoteAction;
 	
-	public MultiPlayerGame(Player player1, RemotePlayer player2) {
+	public MultiplayerGame(Player player1, RemotePlayer player2) {
 		super(player1, player2);
 	}
 
