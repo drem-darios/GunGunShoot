@@ -19,35 +19,25 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 
 	private IGame game;
 	private String ipAddress;
-	private boolean remotePlayerConnected;
-	private RemotePlayer remotePlayer;
-	private ServerSocket ss = null;
 
 	@Override
 	protected void readInput() {
-
-		Thread socketConnectThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					ss = new ServerSocket(3736);
-					Socket socket = ss.accept(); // This will block until complete
-					
-					remotePlayer = new RemotePlayer(socket);
-					remotePlayerConnected = true;
-				} catch (IOException e) {}
+		RemotePlayer remotePlayer = null;
+		ServerSocket ss = null;
+		try {
+			ss = new ServerSocket(3736);
+			ss.setSoTimeout(30000);
+			Socket socket = ss.accept(); // This will block until complete
+			remotePlayer = new RemotePlayer(socket);
+			ss.close();
+		} catch(IOException e) {
+			if (ss != null) {
+				try {ss.close();} catch (IOException e1) {}
+				ss = null;
 			}
-		});
-		socketConnectThread.start();
-		waitForOpponent();
+		}
 
 		if (remotePlayer == null) {
-			try {
-				if (ss != null) {
-					ss.close();
-					ss = null;
-				}
-			} catch (IOException e) {}
 			System.out.println("No opponents found! Try single player or joining a game instead.");
 			IMenu menu = new MainGameMenu();
 			menu.openMenu();
@@ -63,25 +53,6 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 			game.play();
 		}
 
-	}
-
-	private void waitForOpponent() {
-		System.out.print("Waiting for opponent...");
-		int count = 0;
-		int prettyPrint = 10;
-
-		while (!isRemotePlayerConnected() && count < 30) {
-			count++;
-			System.out.print('.');
-			if ((count % prettyPrint) == 0) {
-				// Just to make output look a little nicer while waiting
-				System.out.println();
-				prettyPrint--;
-			}
-			sleep();
-		}
-
-		System.out.println();
 	}
 
 	@Override
@@ -100,18 +71,6 @@ public class HostMultiPlayerMenu extends AbstractMenu {
 
 	@Override
 	protected void printOptions() {
-		// System.out.println("Waiting for opponent...");
-	}
-
-	private boolean isRemotePlayerConnected() {
-		return remotePlayerConnected;
-	}
-	
-	private void sleep() {
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		 System.out.println("Waiting for opponent...");
 	}
 }
