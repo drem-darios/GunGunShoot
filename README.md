@@ -5,7 +5,7 @@
 A Rock Paper Scissors type game. To run this program outside of an IDE, use the following commands from the project directory:
 
 1. mvn clean install
-2. java -cp target/ggs-0.2-SNAPSHOT.jar com.drem.games.ggs.App
+2. java -cp target/ggs-0.3-SNAPSHOT.jar com.drem.games.ggs.App
  
 ##Rules
 * Everyone starts with zero bullets. This is to weed out the people who aren’t paying attention to the rules. The logical first move of every game is to Reload.
@@ -16,7 +16,8 @@ A Rock Paper Scissors type game. To run this program outside of an IDE, use the 
 * In case of a stalemate, the person with the most bullets wins. If both players have the same amount of bullets, the game is a draw.
 
 ##Game Modes
-* There is currently only a single player mode. Stay tuned for more!
+* Single Player - Play against the computer! Select a difficulty and see if you have what it takes to outsmart the computer player.
+* Multiplayer - Host a local game, or join a public game for some head-to-head action!
 
 ##Actions
 * Block - Shield takes one damage if the opponent has shot a bullet.
