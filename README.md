@@ -16,8 +16,11 @@ A Rock Paper Scissors type game. To run this program outside of an IDE, use the 
 * In case of a stalemate, the person with the most bullets wins. If both players have the same amount of bullets, the game is a draw.
 
 ##Game Modes
-* Single Player - Play against the computer! Select a difficulty and see if you have what it takes to outsmart the computer player.
-* Multiplayer - Host a local game, or join a public game for some head-to-head action!
+###Single Player
+* Select a difficulty and see if you have what it takes to outsmart the computer player.(Currently only one difficulty)
+
+###Multiplayer
+* Host a local game, or join a public game for some head-to-head action!
 
 ##Actions
 * Block - Shield takes one damage if the opponent has shot a bullet.
