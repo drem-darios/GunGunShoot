@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.drem.games.ggs.player.Player;
 import com.drem.games.ggs.player.PlayerOutcome;
-import com.drem.games.ggs.player.action.ActionName;
+import com.drem.games.ggs.player.action.ActionType;
 
 /**
  * @author drem
@@ -12,5 +12,5 @@ import com.drem.games.ggs.player.action.ActionName;
 public interface IPlayerAction extends Serializable {
 
 	public PlayerOutcome doAction(Player player1, Player player2, IPlayerAction otherPlayerAction);
-	public ActionName getActionName();
+	public ActionType getActionName();
 }

@@ -17,7 +17,7 @@ public class GameEndMenu extends AbstractMenu {
 		try {
 			int choice = inputScanner.nextInt();
 			if (choice == 1) {
-				IMenu menu = new SinglePlayerMenu();
+				IMenu menu = new MainGameMenu();
 				menu.openMenu();
 			} else if (choice  == 2) {
 				System.out.println("Goodbye!!!!");
