@@ -1,13 +1,13 @@
 package com.drem.games.ggs.game.mode;
 
-import com.drem.games.ggs.api.IMenu;
 import com.drem.games.ggs.api.IBattleStrategy;
+import com.drem.games.ggs.api.IMenu;
 import com.drem.games.ggs.api.IWeapon;
 import com.drem.games.ggs.game.menu.GameEndMenu;
 import com.drem.games.ggs.player.Player;
 import com.drem.games.ggs.player.PlayerOutcome;
+import com.drem.games.ggs.player.action.ActionType;
 import com.drem.games.ggs.util.Pair;
-import com.drem.games.ggs.weapon.WeaponAction;
 import com.drem.games.ggs.weapon.WeaponFactory;
 
 /**
@@ -18,13 +18,13 @@ public class RegularMode implements IBattleStrategy {
 	private IMenu gameEndMenu = new GameEndMenu();
 
 	@Override
-	public void battle(Pair<Player, WeaponAction> player1Move,
-			Pair<Player, WeaponAction> player2Move) {
+	public void battle(Pair<Player, ActionType> player1Move,
+			Pair<Player, ActionType> player2Move) {
 		Player player1 = player1Move.getFirst();
 		Player player2 = player2Move.getFirst();
 
-		WeaponAction player1Action = player1Move.getSecond();
-		WeaponAction player2Action = player2Move.getSecond();
+		ActionType player1Action = player1Move.getSecond();
+		ActionType player2Action = player2Move.getSecond();
 
 		PlayerOutcome playerOutcome = PlayerOutcome.OK;
 		PlayerOutcome computerOutcome = PlayerOutcome.OK;
@@ -34,7 +34,7 @@ public class RegularMode implements IBattleStrategy {
 
 		switch (player1Action) {
 		case RELOAD:
-			if (player2Action == WeaponAction.SHOOT) {
+			if (player2Action == ActionType.SHOOT) {
 				if (player2.hasWeapon()) {
 					playerOutcome = PlayerOutcome.DEAD;
 					break;
@@ -51,7 +51,7 @@ public class RegularMode implements IBattleStrategy {
 			break;
 		case SHOOT:
 			if (player1.hasWeapon()) {
-				if (player2Action == WeaponAction.SHOOT) {
+				if (player2Action == ActionType.SHOOT) {
 					if (player2.hasWeapon()) {
 						IWeapon pWeapon = WeaponFactory.getWeapon(player1
 								.getBulletCount());
@@ -74,7 +74,7 @@ public class RegularMode implements IBattleStrategy {
 								.println("Pfftt! Your opponent has shot an empty gun!");
 					}
 
-				} else if (player2Action == WeaponAction.RELOAD) {
+				} else if (player2Action == ActionType.RELOAD) {
 					computerOutcome = PlayerOutcome.DEAD;
 				} else {
 					player1.useBullet();
@@ -83,7 +83,7 @@ public class RegularMode implements IBattleStrategy {
 							+ player1.getBulletCount() + " bullets left!");
 				}
 			} else {
-				if (player2Action == WeaponAction.SHOOT) {
+				if (player2Action == ActionType.SHOOT) {
 					if (player2.hasWeapon()) {
 						playerOutcome = PlayerOutcome.DEAD;
 						break;
@@ -105,7 +105,7 @@ public class RegularMode implements IBattleStrategy {
 		case BLOCK:
 			// Check if a bullet was shot and if player could shoot. If so, call
 			// block. If not, continue.
-			if (player2Action == WeaponAction.SHOOT) {
+			if (player2Action == ActionType.SHOOT) {
 				if (player2.hasWeapon()) {
 					if (player1.canBlock()) {
 						playerOutcome = PlayerOutcome.SHIELD_DMG;
@@ -129,7 +129,7 @@ public class RegularMode implements IBattleStrategy {
 
 		switch (player2Action) {
 		case BLOCK:
-			if (player1Action == WeaponAction.SHOOT && player1.hasWeapon()) {
+			if (player1Action == ActionType.SHOOT && player1.hasWeapon()) {
 				if (player2.canBlock()) {
 					player2.block();
 				} else {
